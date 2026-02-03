@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+
+::-ms-reveal {
+  filter: invert(100%);
+}
