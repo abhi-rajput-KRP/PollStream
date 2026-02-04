@@ -1,26 +1,45 @@
 import PollCard from "./PollCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function MyPolls() {
-    const questions = [
-        {
-            author: "abhi", question: 'How Are You ?', options: [
-                { num: 1, text: "fine", votes: 3 },
-                { num: 2, text: "good", votes: 2 },
-            ]
-        },
-    ];
+    const token = localStorage.getItem("access_token")
+    if (!token) {
+        window.location.href = '/login'
+    }
+    const [questions, setquestions] = useState([])
 
-    const HandelDelete = () => {
-        console.log("Hello")
+    useEffect(() => {
+        axios.post("http://127.0.0.1:5000/my_polls",
+            { user: localStorage.getItem('user') },
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(resp => setquestions(resp.data))
+    }, [])
+
+    function HandelDelete(id){
+        axios.post("http://127.0.0.1:5000/delete_poll",
+            { poll_id:id , author: localStorage.getItem('user') },
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(resp => setquestions(resp.data))
     }
 
     return (
         <div className="bg-black min-h-100 text-white flex flex-col justify-center items-center" >
             {questions.map((val) => (
-                <div key={val.author}>
+                <div key={val.poll_id}>
                     <button
                         className="px-3 py-3 bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-102 transition-all duration-200 mx-2"
-                        onClick={HandelDelete}
+                        onClick={() => HandelDelete(val.poll_id)}
                     >
                         Delete</button>
                     <PollCard author={val.author} question={val.question} options={val.options} />

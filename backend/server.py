@@ -1,20 +1,23 @@
-from flask import Flask, jsonify, request,abort
+from flask import Flask, jsonify,request,abort
+from flask_jwt_extended import JWTManager, create_access_token,jwt_required
+import uuid
 from flask_cors import CORS
-import json
-import bcrypt
-import pymongo
-import datetime , dotenv
+import datetime, dotenv, bcrypt, pymongo
 
 app = Flask(__name__)
 
-# CORS policies
-CORS(app, supports_credentials=True, origins=[
-    "http://localhost:5173",
-])
+# Setting Up JWT
+app.config["JWT_SECRET_KEY"] = dotenv.get_key('.env','JWT_SECRET_KEY')
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=7)
 
+jwt = JWTManager(app)
+
+# CORS policies
 WHITELISTED_ORIGINS = [
     "http://localhost:5173",
 ]
+
+CORS(app, supports_credentials=True, origins=WHITELISTED_ORIGINS)
 
 @app.before_request
 def block_untrusted_origins():
@@ -42,31 +45,72 @@ polls = db.Polls
 #User Register
 @app.route('/register', methods=['POST'])
 def register():
-    username = request.get_json()['username']
-    password = request.get_json()['password']
+    username = request.json.get('username')
+    password = request.json.get('password')
     hashed_pw = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
-    users.insert_one({
+    user = users.insert_one({
         "username": username,
-        "password": hashed_pw  # store only the hash
+        "password": hashed_pw
     })
-    return jsonify({'username': username, 'password': password}),200
-
+    user_id = str(user.inserted_id)
+    access_token = create_access_token(identity=user_id)
+    return jsonify({'user': username, 'access_token':access_token}),200
 
 # User Login
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.get_json()['username']
-    password = request.get_json()['password']
+    username = request.json.get('username')
+    password = request.json.get('password')
     user = users.find_one({"username": username})
-    print(user)
     if user and bcrypt.checkpw(password.encode("utf-8"), user["password"]):
-        return jsonify({'message' : 'logged in'}),200  # password correct
-    return jsonify({'message' : 'wrong username or password'}),401
+        user_id = str(user.get("_id"))
+        access_token = create_access_token(identity=user_id)
+        return jsonify({'user': username, 'access_token':access_token}),200
+    return jsonify({'message' : 'Wrong username or password !!'}),401
 
 @app.route('/create_poll', methods=['GET','POST'])
+@jwt_required()
 def create_poll():
-    pass
+    try:
+        data = request.get_json()
+        author = data.get('author')
+        question = data.get('question')
+        options = data.get('options')
+        polls.insert_one({"poll_id":str(uuid.uuid4()), "author": author, "question": question, "options": options})
+        return jsonify({'message': 'success'}),200
+    except:
+        return jsonify({'message': 'Something went wrong!'}), 400
 
+@app.route('/all_polls', methods=['GET'])
+@jwt_required()
+def all_polls():
+    poll_data = polls.find()
+    poll_array = []
+    for poll in poll_data:
+        poll_array.append({'poll_id':poll.get('poll_id'), 'author': poll.get('author'), 'question': poll.get('question'), 'options': poll.get('options')})
+    return jsonify(poll_array),200
+
+@app.route('/my_polls', methods=['POST'])
+@jwt_required()
+def my_polls():
+    user = request.json.get('user')
+    poll_data = polls.find({"author": user})
+    poll_array = []
+    for poll in poll_data:
+        poll_array.append({'poll_id':poll.get('poll_id'), 'author': poll.get('author'), 'question': poll.get('question'), 'options': poll.get('options')})
+    return jsonify(poll_array),200
+
+@app.route('/delete_poll', methods=['POST'])
+@jwt_required()
+def delete_polls():
+    poll_id = request.json.get('poll_id')
+    author = request.json.get('author')
+    polls.delete_one({"poll_id": poll_id})
+    poll_data = polls.find({"author": author})
+    poll_array = []
+    for poll in poll_data:
+        poll_array.append({'poll_id':poll.get('poll_id'), 'author': poll.get('author'), 'question': poll.get('question'), 'options': poll.get('options')})
+    return jsonify(poll_array),200
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

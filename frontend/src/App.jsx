@@ -1,18 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import io from "socket.io-client";
 import Footer from './components/Footer';
 import NavHorizontal from './components/Header'
-import { UserConetxtProvider } from './context/UserContext';
-import { data, Outlet } from 'react-router';
-import axios from 'axios';
+import { Outlet } from 'react-router';
 
 // const socket = io("http://localhost:5000");
 
 function App() {
-  const [Username, setUsername] = useState("")
-  const [Token, setToken] = useState("")
+  useEffect(()=>{
+    const curr_date = Date.now();
+    if (curr_date-Number(localStorage.getItem('creation_time')) >= (6*24*60*60*100)){
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('user')
+    }
+  },[])
 
-  if (Token) {
+  const access_token = localStorage.getItem('access_token')
+  if (!access_token) {
     return (
       <>
         <Outlet />
@@ -22,11 +26,11 @@ function App() {
   }
   else {
     return (
-      <UserConetxtProvider value={{ Username, Token }}>
+      <>
         <NavHorizontal />
         <Outlet />
         <Footer />
-      </UserConetxtProvider>
+      </>
     )
   }
 

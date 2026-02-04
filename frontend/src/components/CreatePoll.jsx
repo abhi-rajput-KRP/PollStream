@@ -1,17 +1,31 @@
+import axios from "axios";
 import { useState } from "react";
 
 export default function CreatePoll() {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        window.location.href = '/login'
+    }
+    const author = localStorage.getItem("user")
+
+    function simpleUID(length = 8) {
+        return crypto.getRandomValues(new Uint8Array(length))
+            .reduce((acc, byte) => acc + byte.toString(16).padStart(2, '0'), '');
+    }
+
 
     const [error_message, seterror_message] = useState("")
     const [question, setquestion] = useState("")
     const [options, setoptions] = useState([
         {
-            num: 1,
-            text: ""
+            id: simpleUID(),
+            text: "",
+            votes: 0
         },
         {
-            num: 2,
-            text: ""
+            id: simpleUID(),
+            text: "",
+            votes: 0
         }
     ])
 
@@ -20,23 +34,45 @@ export default function CreatePoll() {
             seterror_message("Maximum 5 options are allowed")
         }
         else {
-            setoptions((prev) => ([...prev, { num: prev.length + 1, text: "" }]));
+            setoptions((prev) => ([...prev, { id: simpleUID(), text: "" }]));
             seterror_message("")
         }
     }
 
-    const HandelDelete = (num) => {
+    const HandelDelete = (id) => {
         if (options.length === 2) {
             seterror_message("Minimum 2 options needed !!")
         }
         else {
-            setoptions((prev) => (prev.filter((val) => (num !== val.num))))
+            setoptions((prev) => (prev.filter((val) => (id !== val.id))))
             seterror_message("")
         }
     }
 
     const HandelSubmit = (e) => {
         e.preventDefault();
+        options.forEach((element) => {
+            if (element.text.length === 0) {
+                seterror_message("No option feild can be empty !!");
+                return;
+            }
+        })
+        axios.post('http://127.0.0.1:5000/create_poll',
+            { author, question, options }, // request body
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+            .then(r => 
+                window.location.href = '/my_polls'
+            )
+            .catch(e => {
+                seterror_message("Poll Creation failed !! ");
+            });
+
     }
 
     return (
@@ -55,19 +91,19 @@ export default function CreatePoll() {
                 />
                 <label className="text-gray-300 mt-2" htmlFor="option">Options : </label>
                 {options.map((option) => (
-                    <div className=" my-1" key={option.num}>
+                    <div className=" my-1" key={option.id}>
                         <input
                             className="w-70 text-gray-200 border-2 rounded-lg p-2 border-gray-500 transform hover:scale-102 transition-all duration-100 focus:border-white focus:outline-none focus:scale-103 transition-all duration-200"
                             name="option"
-                            id={option.num}
+                            id={option.id}
                             type="text"
                             placeholder="Enter option.."
                             value={option.text}
-                            onChange={(e) => setoptions((prev) => prev.map((val) => val.num === option.num ? { num: option.num, text: e.target.value } : val))}
+                            onChange={(e) => setoptions((prev) => prev.map((val) => val.id === option.id ? { id: option.id, text: e.target.value, votes: 0 } : val))}
                         />
                         <input
                             type="button"
-                            onClick={() => HandelDelete(option.num)}
+                            onClick={() => HandelDelete(option.id)}
                             value="Delete"
                             className="px-3 py-2 ml-1 bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-102 transition-all duration-200"
                         />

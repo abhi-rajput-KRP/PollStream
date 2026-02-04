@@ -1,38 +1,45 @@
 import { Link } from 'react-router';
-import { use, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 export default function Register() {
-
+    if (localStorage.getItem('access_token')) {
+        window.location.href = '/all_polls'
+    }
     const [username, setusername] = useState("")
     const [password, setpassword] = useState("")
     const [confirm_password, setconfirm_password] = useState("")
     const [error_message, seterror_message] = useState("")
 
-    const HandelSubmit = (e) => {
+    async function HandelSubmit(e) {
         e.preventDefault();
         // Validating the values
-        if (username.length < 5) {
+        if (username.trim().length < 5) {
             seterror_message("Usename can't be smaller than 5 characters !!")
         }
-        else if (password.length < 6) {
+        else if (password.trim().length < 6) {
             seterror_message("Password can't be smaller than 6 characters !!")
         }
-        else if (password !== confirm_password) {
+        else if (password.trim() !== confirm_password.trim()) {
             seterror_message("Password and Confirm password are not same !!")
         }
-        else (
-            axios.post("http://127.0.0.1:5000/register", {
-                username: username,
-                password: password
-            })
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
-        )
+        else {
+            try{
+            const res = await axios.post("http://127.0.0.1:5000/register", { username : username.trim(), password : password.trim() });
+            const { user, access_token } = res.data;
+
+            // Store access token in memory (React state/context)
+            localStorage.setItem("access_token", access_token);
+            localStorage.setItem("user", user)
+            localStorage.setItem("creation_time",Date.now())
+
+            // Store refresh token in HttpOnly cookie (set by backend ideally)
+            window.location.href = '/all_polls';
+            }
+            catch(e){
+                seterror_message("Login Failed !! ");
+            }
+        }
     }
     return (
         <div className="bg-black text-white h-screen flex flex-col justify-center items-center">
