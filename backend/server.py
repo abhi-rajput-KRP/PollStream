@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 # Setting Up JWT
 app.config["JWT_SECRET_KEY"] = dotenv.get_key('.env','JWT_SECRET_KEY')
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=7)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=2)
 
 jwt = JWTManager(app)
 
