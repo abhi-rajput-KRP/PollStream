@@ -1,10 +1,10 @@
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
 function HeroSection() {
 
   return (
     <section className="relative w-full min-h-screen bg-black flex">
-      <div style={{alignSelf:'center',justifySelf:'center'}} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+      <div style={{ alignSelf: 'center', justifySelf: 'center' }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-900/30 text-orange-400 rounded-full text-sm font-medium mb-8">
             🏆 Share your Opinions on polls

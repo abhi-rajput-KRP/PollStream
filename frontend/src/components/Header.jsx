@@ -1,12 +1,12 @@
 import { useState } from "react";
-import {NavLink} from 'react-router';
+import { NavLink } from 'react-router';
 
 export default function NavHorizontal() {
 
   const navItems = [
-    { name: "Polls", href: "/all_polls"},
-    { name: "My Polls", href: "/my_polls"},
-    { name: "Create Poll", href: "/create_poll"},
+    { name: "Polls", href: "/all_polls" },
+    { name: "My Polls", href: "/my_polls" },
+    { name: "Create Poll", href: "/create_poll" },
   ];
 
   return (
@@ -20,11 +20,10 @@ export default function NavHorizontal() {
                   <NavLink
                     key={item.name}
                     to={item.href}
-                    className={({isActive})=> `inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors duration-200 ${
-                      isActive
+                    className={({ isActive }) => `inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors duration-200 ${isActive
                         ? "bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent scale-110"
                         : "text-gray-400 hover:text-gray-300"
-                    }`}
+                      }`}
                   >
                     {item.name}
                   </NavLink>

@@ -3,7 +3,8 @@ import io from "socket.io-client";
 import Footer from './components/Footer';
 import NavHorizontal from './components/Header'
 import { UserConetxtProvider } from './context/UserContext';
-import { Outlet } from 'react-router';
+import { data, Outlet } from 'react-router';
+import axios from 'axios';
 
 // const socket = io("http://localhost:5000");
 
@@ -23,7 +24,7 @@ function App() {
     return (
       <UserConetxtProvider value={{ Username, Token }}>
         <NavHorizontal />
-        <Outlet/>
+        <Outlet />
         <Footer />
       </UserConetxtProvider>
     )
