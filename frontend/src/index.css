@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+body{
+  background: #000;
+  color: aliceblue;
+}
 
 ::-ms-reveal {
   filter: invert(100%);

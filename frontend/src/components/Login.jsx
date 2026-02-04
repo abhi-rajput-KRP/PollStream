@@ -1,22 +1,34 @@
 import {Link} from 'react-router';
 import { useState } from 'react';
+import axios from 'axios';
 
 export default function Login(){
 
     
     const [username, setusername] = useState("")
     const [password, setpassword] = useState("")
+    const [error_message, seterror_message] = useState("")
 
     const HandelSubmit = (e) => {
         e.preventDefault();
+        // Validating the values
+        if (username.length < 5){
+            seterror_message("Usename can't be smaller than 5 characters !!")
+        }
+        else if(password.length <6 ){
+            seterror_message("Password can't be smaller than 6 characters !!")
+        }
+        else(
+            pass
+        )
     }
     return(
         <div className="bg-black text-white h-screen flex flex-col justify-center items-center">
-            <form className=" border border-zinc-700 flex flex-col rounded-lg p-4 w-100 gap-3" onSubmit={(e) => HandelSubmit(e)}>
-            <h2 className="text-center text-4xl bold">LogIn</h2>
-                <label className="text-gray-300 mt-2" htmlFor="usernme">Username: </label>
+            <form className=" border border-zinc-700 flex flex-col rounded-lg p-4 w-100 gap-3 transform hover:scale-102 transition-all duration-300" onSubmit={(e) => HandelSubmit(e)}>
+            <h2 className="text-center text-4xl font-bold">LogIn</h2>
+                <label className="text-gray-300 mt-2" htmlFor="username">Username: </label>
                 <input 
-                className="text-gray-200 border-b-2 border-gray-500 transform hover:scale-102 transition-all duration-100" 
+                className="text-gray-200 border-b-2 border-gray-500 transform hover:scale-102 transition-all duration-100 focus:border-white focus:outline-none focus:scale-103 transition-all duration-200 " 
                 name="username" 
                 id="username"  
                 type="text" 
@@ -26,7 +38,7 @@ export default function Login(){
                 />
                 <label className="text-gray-300 mt-2" htmlFor="password">Password: </label>
                 <input 
-                className="text-gray-200 border-b-2 border-gray-500 transform hover:scale-102 transition-all duration-100" 
+                className="text-gray-200 border-b-2 border-gray-500 transform hover:scale-102 transition-all duration-100 focus:border-white focus:outline-none focus:scale-103 transition-all duration-200 " 
                 name="password" 
                 id="password"  
                 type = "password" 
@@ -34,8 +46,9 @@ export default function Login(){
                 value={password}
                 onChange={(e)=>setpassword(e.target.value)} 
                 />
-                <button className="px-8 py-4 bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-200 m-4" type="submit">Login</button>
-            <p className='text-center'>Dont have account? <Link to='/register' className='text-orange-600'>Register</Link></p>
+                <button className="px-8 py-4 bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-102 transition-all duration-200 m-4" type="submit">Login</button>
+            <p className='text-center'>Dont have account? <Link to='/register' className='bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent'>Register</Link></p>
+            <p className='text-center text-red-500'>{error_message}</p>
             </form>
         </div>
     );
