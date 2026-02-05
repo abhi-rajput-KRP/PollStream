@@ -122,8 +122,6 @@ npm run dev
 
 <h2>Future Improvements</h2>
 
-* Having issues with routes reload, will be fixed in future updates
 
 * Need to set up socket server for realtime poll
 
-* Have to validate before votye so that one user can vote only onse
