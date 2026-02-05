@@ -30,6 +30,7 @@ PollStream/
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── vite.config.js
+│   ├── vercel.json
 │   └── src/
 │       ├── assets/
 │       │   └── poll.png

@@ -23,13 +23,11 @@ export default function CreatePoll() {
     const [options, setoptions] = useState([
         {
             id: simpleUID(),
-            text: "",
-            votes: 0
+            text: ""
         },
         {
             id: simpleUID(),
-            text: "",
-            votes: 0
+            text: ""
         }
     ])
 
@@ -85,7 +83,7 @@ export default function CreatePoll() {
 
     return (
         <div className="bg-black min-h-100 text-white flex flex-col justify-center items-center" >
-            <form className="my-15 border border-zinc-700 bg-zinc-700/20 flex flex-col rounded-lg p-4 min-w-100 gap-3 transform hover:scale-102 transition-all duration-300 m-4" onSubmit={(e) => HandelSubmit(e)}>
+            <form className="my-15 border border-zinc-700 bg-zinc-700/20 flex flex-col rounded-lg p-4 w-75 md:w-120 gap-3 transform hover:scale-102 transition-all duration-300 m-4" onSubmit={(e) => HandelSubmit(e)}>
                 <h2 className="text-center text-4xl font-bold">Create Poll</h2>
                 <label className="text-gray-300 mt-2" htmlFor="question">Question : </label>
                 <input
@@ -101,7 +99,7 @@ export default function CreatePoll() {
                 {options.map((option) => (
                     <div className=" my-1" key={option.id}>
                         <input
-                            className="w-70 text-gray-200 border-2 rounded-lg p-2 border-gray-500 transform hover:scale-102 transition-all duration-100 focus:border-white focus:outline-none focus:scale-103 transition-all duration-200"
+                            className="w-47 md:w-92 text-gray-200 border-2 rounded-lg p-2 border-gray-500 transform hover:scale-102 transition-all duration-100 focus:border-white focus:outline-none focus:scale-103 transition-all duration-200"
                             name="option"
                             id={option.id}
                             type="text"

@@ -47,7 +47,7 @@ export default function Register() {
     }
     return (
         <div className="text-white h-screen flex flex-col justify-center items-center">
-            <form className="bg-zinc-700/20 border border-zinc-700 flex flex-col rounded-lg p-4 w-100 gap-3 transform hover:scale-102 transition-all duration-300" onSubmit={(e) => HandelSubmit(e)}>
+            <form className="bg-zinc-700/20 border border-zinc-700 flex flex-col rounded-lg p-3 w-75 md:w-120 md:p-4 gap-3 transform hover:scale-102 transition-all duration-300" onSubmit={(e) => HandelSubmit(e)}>
                 <h2 className="text-center text-4xl font-bold">Register</h2>
                 <label className="text-gray-300 mt-2" htmlFor="username">Username: </label>
                 <input

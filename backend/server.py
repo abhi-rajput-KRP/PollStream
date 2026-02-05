@@ -1,5 +1,5 @@
 from flask import Flask, jsonify,request,abort
-from flask_jwt_extended import JWTManager, create_access_token,jwt_required
+from flask_jwt_extended import JWTManager, create_access_token,jwt_required, get_jwt_identity
 from flask_cors import CORS
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
@@ -36,19 +36,6 @@ db = client.PollStream
 users = db.users
 polls = db.Polls
 
-# @socketio.on('connect')
-# def on_connect():
-# Add change listener thread to DB
-# def watch_changes():
-#     with polls.watch() as stream:
-#         for change in stream:
-#             print("Change detected:", change)
-#             # socketio.emit("db_update", {"change": change})
-#
-# # Start listener thread
-# threading.Thread(target=watch_changes, daemon=True).start()
-#
-
 #User Register
 @app.route('/register', methods=['POST'])
 def register():
@@ -84,7 +71,10 @@ def create_poll():
         author = data.get('author')
         question = data.get('question')
         options = data.get('options')
-        polls.insert_one({"poll_id":str(uuid.uuid4()), "author": author, "question": question, "options": options})
+        votes_record = dict()
+        for option in options:
+            votes_record[option.id] = []
+        polls.insert_one({"poll_id":str(uuid.uuid4()), "author": author, "question": question, "options": options , "votes": votes_record})
         return jsonify({'message': 'success'}),200
     except:
         return jsonify({'message': 'Something went wrong!'}), 400
@@ -95,7 +85,7 @@ def all_polls():
     poll_data = polls.find()
     poll_array = []
     for poll in poll_data:
-        poll_array.append({'poll_id':poll.get('poll_id'), 'author': poll.get('author'), 'question': poll.get('question'), 'options': poll.get('options')})
+        poll_array.append({'poll_id':poll.get('poll_id'), 'author': poll.get('author'), 'question': poll.get('question'), 'options': poll.get('options'), 'votes':poll.get('votes')})
     return jsonify(poll_array[::-1]),200
 
 @app.route('/my_polls', methods=['POST'])
@@ -105,16 +95,29 @@ def my_polls():
     poll_data = polls.find({"author": user})
     poll_array = []
     for poll in poll_data:
-        poll_array.append({'poll_id':poll.get('poll_id'), 'author': poll.get('author'), 'question': poll.get('question'), 'options': poll.get('options')})
+        poll_array.append({'poll_id':poll.get('poll_id'), 'author': poll.get('author'), 'question': poll.get('question'), 'options': poll.get('options'), 'votes':poll.get('votes')})
     return jsonify(poll_array[::-1]),200
 
 @app.route('/vote', methods=['POST'])
 @jwt_required()
 def delete_poll():
     data = request.json
+    user_id = get_jwt_identity()
     question_id = data.get('question_id')
     option_id = data.get('option_id')
-    polls.update_one({'poll_id':question_id, 'options.id':option_id},{"$inc": {"options.$.votes": 1}})
+    poll_data = polls.find({"poll_id": question_id})
+    votes_record = dict()
+    for poll in poll_data:
+        for op_id in poll.get('votes').keys():
+            vote_li = []
+            for vote in poll.get('votes')[op_id]:
+                if vote == user_id:
+                    pass
+                else:
+                    vote_li.append(vote)
+            votes_record[op_id] = vote_li
+    votes_record[option_id].append(user_id)
+    polls.update_one({'poll_id':question_id},{"$set": {'votes': votes_record}})
 
 @app.route('/delete_poll', methods=['POST'])
 @jwt_required()
