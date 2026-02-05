@@ -24,7 +24,7 @@ export default function PollCard({ author, question, options, id, votes, selecti
                                 style={{ width: `${totalvotes !== 0 ? (votes[option.id].length / totalvotes) * 100 : 0}%` }}
                             ></div>
                         </div>
-                        <p className="text-right mt-1 text-zinc-400">{totalvotes !== 0 ? (votes[option.id].length / totalvotes) * 100 : 0}% Votes</p>
+                        <p className="text-right mt-1 text-zinc-400">{totalvotes !== 0 ? Math.round(votes[option.id].length / totalvotes) * 100 : 0}% Votes</p>
                     </button>
                 ))}
                 <p className="text-right  text-zinc-600">Author : <span className="text-orange-800">{author}</span></p>
