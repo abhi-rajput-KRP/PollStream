@@ -28,16 +28,9 @@ def block_untrusted_origins():
     referer = request.headers.get("Referer")
 
     if origin and origin not in WHITELISTED_ORIGINS:
-        abort(401, description="Origin not allowed")
+        abort(403, description="Origin not allowed")
     if referer and not any(referer.startswith(o) for o in WHITELISTED_ORIGINS):
-        abort(402, description="Referer not allowed")
-
-@app.before_request
-def block_proxies():
-    proxy_headers = ["X-Forwarded-For", "Via", "Forwarded"]
-    for h in proxy_headers:
-        if h in request.headers:
-            abort(400, description="Proxy access not allowed")
+        abort(403, description="Referer not allowed")
 
 # Database Connection
 client = MongoClient(dotenv.get_key('.env','MONGO_URI'), server_api=ServerApi('1'))
