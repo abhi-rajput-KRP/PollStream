@@ -36,7 +36,7 @@ export default function AllPolls() {
     }
 
     return (
-        <div className="bg-black min-h-100 text-white flex flex-col justify-center items-center" >
+        <div className="bg-black min-h-100 text-white flex flex-wrap justify-center items-center" >
             {questions.map((val) => (
                 <div key={val.poll_id} id={val.poll_id} className="border border-zinc-700 rounded-lg my-3 bg-zinc-700/20">
                     <PollCard author={val.author} question={val.question} options={val.options} id={val.poll_id} votes={val.votes} selection={Selection} />

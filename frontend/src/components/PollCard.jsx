@@ -12,7 +12,7 @@ export default function PollCard({ author, question, options, id, votes, selecti
 
 
     return (
-        <div className="p-6 m-2 rounded-lg flex flex-wrap">
+        <div className="p-6 m-2 rounded-lg">
             <div className="w-75 md:w-120 flex flex-col gap-3">
                 <h1 className="font-semibold text-xl">{question}</h1>
                 {options.map((option) => (
