@@ -1,11 +1,12 @@
 import PollCard from "./PollCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 export default function MyPolls() {
     const token = localStorage.getItem("access_token")
     if (!token) {
-        window.location.href = '/'
+        useNavigate()('/');
     }
     const [questions, setquestions] = useState([])
 

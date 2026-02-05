@@ -1,8 +1,8 @@
-import { Link } from 'react-router';
+import { Link,useNavigate } from 'react-router';
 
 function HeroSection() {
-  if(localStorage.getItem('access_token')){
-    window.location.href = '/all-polls'
+  if (localStorage.getItem('access_token')) {
+    useNavigate()('/all_polls')
   }
   return (
     <section className="relative w-full min-h-screen bg-black flex">

@@ -5,7 +5,7 @@ import axios from "axios";
 export default function AllPolls() {
     const token = localStorage.getItem("access_token")
     if (!token) {
-        window.location.href = '/'
+        useNavigate()('/');
     }
     const [questions, setquestions] = useState([])
 

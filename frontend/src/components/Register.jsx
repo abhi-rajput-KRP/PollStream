@@ -1,10 +1,10 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useState } from 'react';
 import axios from 'axios';
 
 export default function Register() {
     if (localStorage.getItem('access_token')) {
-        window.location.href = '/all-polls'
+        useNavigate()('/all_polls');
     }
     const [username, setusername] = useState("")
     const [password, setpassword] = useState("")
@@ -24,19 +24,19 @@ export default function Register() {
             seterror_message("Password and Confirm password are not same !!")
         }
         else {
-            try{
-            const res = await axios.post("https://pollstream-cqof.onrender.com/register", { username : username.trim(), password : password.trim() });
-            const { user, access_token } = res.data;
+            try {
+                const res = await axios.post("https://pollstream-cqof.onrender.com/register", { username: username.trim(), password: password.trim() });
+                const { user, access_token } = res.data;
 
-            // Store access token in memory (React state/context)
-            localStorage.setItem("access_token", access_token);
-            localStorage.setItem("user", user)
-            localStorage.setItem("creation_time",Date.now())
+                // Store access token in memory (React state/context)
+                localStorage.setItem("access_token", access_token);
+                localStorage.setItem("user", user)
+                localStorage.setItem("creation_time", Date.now())
 
-            // Store refresh token in HttpOnly cookie (set by backend ideally)
-            window.location.href = '/all-polls';
+                // Store refresh token in HttpOnly cookie (set by backend ideally)
+                useNavigate()('/all_polls');
             }
-            catch(e){
+            catch (e) {
                 seterror_message("Login Failed !! ");
             }
         }

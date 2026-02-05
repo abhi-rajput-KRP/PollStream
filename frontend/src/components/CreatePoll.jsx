@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function CreatePoll() {
     const token = localStorage.getItem('access_token');
     if (!token) {
-        window.location.href = '/'
+        useNavigate()('/');
     }
     const author = localStorage.getItem("user")
 
@@ -70,7 +71,7 @@ export default function CreatePoll() {
             }
         )
             .then(r => 
-                window.location.href = '/my-polls'
+                useNavigate()('/my_polls')
             )
             .catch(e => {
                 seterror_message("Poll Creation failed !! ");
