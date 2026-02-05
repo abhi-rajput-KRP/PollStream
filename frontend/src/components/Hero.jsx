@@ -27,7 +27,7 @@ function HeroSection() {
             <Link to='/register' className="px-8 py-4 bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-200">
               Register
             </Link>
-            <Link to='login' className="px-8 py-4 border border-zinc-700 text-gray-300 hover:bg-zinc-800 font-semibold rounded-lg transition-colors duration-200">
+            <Link to='login' className="bg-zinc-700/20 px-8 py-4 border border-zinc-700 text-gray-300 hover:bg-zinc-800 font-semibold rounded-lg transition-colors duration-200">
               Log In
             </Link>
           </div>

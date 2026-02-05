@@ -1,14 +1,17 @@
 from flask import Flask, jsonify,request,abort
 from flask_jwt_extended import JWTManager, create_access_token,jwt_required
-import uuid
+from flask_socketio import SocketIO, send, emit
 from flask_cors import CORS
-import datetime, dotenv, bcrypt, pymongo
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+import datetime, dotenv, bcrypt, threading, uuid
 
 app = Flask(__name__)
 
 # Setting Up JWT
 app.config["JWT_SECRET_KEY"] = dotenv.get_key('.env','JWT_SECRET_KEY')
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=2)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=1)
+socketio = SocketIO(app, cors_allowed_origins="http://localhost:5173")
 
 jwt = JWTManager(app)
 
@@ -37,10 +40,21 @@ def block_proxies():
             abort(403, description="Proxy access not allowed")
 
 # Database Connection
-client = pymongo.MongoClient(dotenv.get_key('.env','MONGO_URI'))
+client = MongoClient(dotenv.get_key('.env','MONGO_URI'), server_api=ServerApi('1'))
 db = client.PollStream
 users = db.users
 polls = db.Polls
+
+# # Add change listener thread to DB
+# def watch_changes():
+#     with polls.watch() as stream:
+#         for change in stream:
+#             print("Change detected:", change)
+#             # socketio.emit("db_update", {"change": change})
+#
+# # Start listener thread
+# threading.Thread(target=watch_changes, daemon=True).start()
+#
 
 #User Register
 @app.route('/register', methods=['POST'])
@@ -88,7 +102,7 @@ def all_polls():
     poll_array = []
     for poll in poll_data:
         poll_array.append({'poll_id':poll.get('poll_id'), 'author': poll.get('author'), 'question': poll.get('question'), 'options': poll.get('options')})
-    return jsonify(poll_array),200
+    return jsonify(poll_array[::-1]),200
 
 @app.route('/my_polls', methods=['POST'])
 @jwt_required()
@@ -98,7 +112,15 @@ def my_polls():
     poll_array = []
     for poll in poll_data:
         poll_array.append({'poll_id':poll.get('poll_id'), 'author': poll.get('author'), 'question': poll.get('question'), 'options': poll.get('options')})
-    return jsonify(poll_array),200
+    return jsonify(poll_array[::-1]),200
+
+@app.route('/vote', methods=['POST'])
+@jwt_required()
+def delete_poll():
+    data = request.json
+    question_id = data.get('question_id')
+    option_id = data.get('option_id')
+    polls.update_one({'poll_id':question_id, 'options.id':option_id},{"$inc": {"options.$.votes": 1}})
 
 @app.route('/delete_poll', methods=['POST'])
 @jwt_required()

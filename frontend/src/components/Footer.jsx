@@ -8,7 +8,7 @@ export default function Footer() {
               PollStream
             </h3>
             <p className="text-sm text-gray-400 mt-1">
-              Building with ❤️ by Abhi Rajput.
+              Build with ❤️ by Abhi Rajput.
             </p>
           </div>
 

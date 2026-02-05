@@ -10,7 +10,7 @@ export default function NavHorizontal() {
       localStorage.removeItem("access_token");
 
       // Redirect user to login page
-      window.location.href = "/login";
+      window.location.href = "/";
     } catch (err) {
       console.error("Logout failed", err);
     }

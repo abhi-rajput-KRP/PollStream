@@ -9,7 +9,7 @@ import { Outlet } from 'react-router';
 function App() {
   useEffect(()=>{
     const curr_date = Date.now();
-    if (curr_date-Number(localStorage.getItem('creation_time')) >= (1.5*24*60*60*100)){
+    if (curr_date-Number(localStorage.getItem('creation_time')) >= (0.75*24*60*60*100)){
       localStorage.removeItem('access_token')
       localStorage.removeItem('user')
     }

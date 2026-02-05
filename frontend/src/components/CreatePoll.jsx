@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function CreatePoll() {
     const token = localStorage.getItem('access_token');
     if (!token) {
-        window.location.href = '/login'
+        window.location.href = '/'
     }
     const author = localStorage.getItem("user")
 
@@ -51,12 +51,15 @@ export default function CreatePoll() {
 
     const HandelSubmit = (e) => {
         e.preventDefault();
+        let validate = 0
         options.forEach((element) => {
             if (element.text.length === 0) {
-                seterror_message("No option feild can be empty !!");
+                seterror_message("No option feild can be empty !!")
+                validate = validate+1;
                 return;
             }
         })
+        if(!validate){
         axios.post('http://127.0.0.1:5000/create_poll',
             { author, question, options }, // request body
             {
@@ -72,12 +75,13 @@ export default function CreatePoll() {
             .catch(e => {
                 seterror_message("Poll Creation failed !! ");
             });
+        }
 
     }
 
     return (
         <div className="bg-black min-h-100 text-white flex flex-col justify-center items-center" >
-            <form className="my-15 border border-zinc-700 flex flex-col rounded-lg p-4 min-w-100 gap-3 transform hover:scale-102 transition-all duration-300 m-4" onSubmit={(e) => HandelSubmit(e)}>
+            <form className="my-15 border border-zinc-700 bg-zinc-700/20 flex flex-col rounded-lg p-4 min-w-100 gap-3 transform hover:scale-102 transition-all duration-300 m-4" onSubmit={(e) => HandelSubmit(e)}>
                 <h2 className="text-center text-4xl font-bold">Create Poll</h2>
                 <label className="text-gray-300 mt-2" htmlFor="question">Question : </label>
                 <input
@@ -110,11 +114,11 @@ export default function CreatePoll() {
                     </div>
                 ))}
                 <input type="button"
-                    className="px-3 py-2 bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-102 transition-all duration-200"
+                    className="px-3 py-2 bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-102 transition-all duration-200 active:scale-98"
                     onClick={AddOption}
                     value="+ Add Option"
                 />
-                <button className="px-8 py-3 bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-102 transition-all duration-200" type="submit">Create Poll</button>
+                <button className="px-8 py-3 bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-102 transition-all duration-200 active:scale-98" type="submit">Create Poll</button>
                 <p className='text-center text-red-500'>{error_message}</p>
             </form>
         </div>

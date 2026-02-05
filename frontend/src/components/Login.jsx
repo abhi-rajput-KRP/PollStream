@@ -38,8 +38,8 @@ export default function Login() {
         }
     }
     return (
-        <div className="bg-black text-white h-screen flex flex-col justify-center items-center">
-            <form className=" border border-zinc-700 flex flex-col rounded-lg p-4 w-100 gap-3 transform hover:scale-102 transition-all duration-300" onSubmit={(e) => HandelSubmit(e)}>
+        <div className="text-white h-screen flex flex-col justify-center items-center">
+            <form className="bg-zinc-700/20 border border-zinc-700 flex flex-col rounded-lg p-4 w-100 gap-3 transform hover:scale-102 transition-all duration-300" onSubmit={(e) => HandelSubmit(e)}>
                 <h2 className="text-center text-4xl font-bold">LogIn</h2>
                 <label className="text-gray-300 mt-2" htmlFor="username">Username: </label>
                 <input
@@ -61,7 +61,7 @@ export default function Login() {
                     value={password}
                     onChange={(e) => setpassword(e.target.value)}
                 />
-                <button className="px-8 py-4 bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-102 transition-all duration-200 m-4" type="submit">Login</button>
+                <button className="px-8 py-4 bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-102 transition-all duration-200 active:scale-98 m-4" type="submit">Login</button>
                 <p className='text-center'>Dont have account? <Link to='/register' className='bg-gradient-to-r from-pink-600 to-red-600 bg-clip-text text-transparent'>Register</Link></p>
                 <p className='text-center text-red-500'>{error_message}</p>
             </form>
