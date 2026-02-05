@@ -34,7 +34,7 @@ export default function Register() {
             localStorage.setItem("creation_time",Date.now())
 
             // Store refresh token in HttpOnly cookie (set by backend ideally)
-            window.location.href = '/all_polls';
+            window.location.href = '/all-polls';
             }
             catch(e){
                 seterror_message("Login Failed !! ");
