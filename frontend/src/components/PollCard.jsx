@@ -10,11 +10,6 @@ export default function PollCard({ author, question, options, id, votes, selecti
         totalvotes = totalvotes + element.votes
     ));
 
-    function HandleCopy() {
-        let URL = `${window.location.origin}/all_polls#${id}`;
-        navigator.clipboard.writeText(URL);
-        alert(`${URL} coppied to clipboad !!`);
-    }
 
     return (
         <div className="p-6 mb-4 rounded-lg w-full">
@@ -33,10 +28,6 @@ export default function PollCard({ author, question, options, id, votes, selecti
                     </button>
                 ))}
                 <p className="text-right  text-zinc-600">Author : <span className="text-orange-800">{author}</span></p>
-                <button
-                    className="px-3 py-2 bg-gradient-to-r from-pink-600 to-red-600 hover:from-pink-700 hover:to-red-700 text-white font-semibold rounded-lg shadow-lg transform hover:scale-102 transition-all duration-200 active:scale-98"
-                    onClick={HandleCopy}
-                >Share</button>
             </div>
         </div>
     )
