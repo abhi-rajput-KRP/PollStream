@@ -44,8 +44,11 @@ client = MongoClient(dotenv.get_key('.env','MONGO_URI'), server_api=ServerApi('1
 db = client.PollStream
 users = db.users
 polls = db.Polls
+print(polls.find())
 
-# # Add change listener thread to DB
+# @socketio.on('connect')
+# def on_connect():
+# Add change listener thread to DB
 # def watch_changes():
 #     with polls.watch() as stream:
 #         for change in stream:
