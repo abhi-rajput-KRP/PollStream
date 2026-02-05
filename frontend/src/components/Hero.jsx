@@ -2,7 +2,7 @@ import { Link } from 'react-router';
 
 function HeroSection() {
   if(localStorage.getItem('access_token')){
-    window.location.href = '/all_polls'
+    window.location.href = '/all-polls'
   }
   return (
     <section className="relative w-full min-h-screen bg-black flex">
