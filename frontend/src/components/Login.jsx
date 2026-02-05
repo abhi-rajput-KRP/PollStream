@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default function Login() {
     if (localStorage.getItem('access_token')) {
-        window.location.href = '/all_polls'
+        window.location.href = '/all-polls'
     }
     const [username, setusername] = useState("")
     const [password, setpassword] = useState("")

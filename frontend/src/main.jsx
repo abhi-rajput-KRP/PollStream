@@ -28,15 +28,15 @@ const router = createBrowserRouter([
         Component: Register
       },
       {
-        path: "/all_polls",
+        path: "/all-polls",
         Component: AllPolls
       },
       {
-        path: "/my_polls",
+        path: "/my-polls",
         Component: MyPolls
       },
       {
-        path: "/create_poll",
+        path: "/create-poll",
         Component: CreatePoll
       },
     ]

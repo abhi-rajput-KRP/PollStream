@@ -8,6 +8,8 @@ export default function NavHorizontal() {
     try {
       // Clear local access token
       localStorage.removeItem("access_token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("creation_time");
 
       // Redirect user to login page
       window.location.href = "/";
@@ -17,9 +19,9 @@ export default function NavHorizontal() {
   }
 
   const navItems = [
-    { name: "Polls", href: "/all_polls" },
-    { name: "My Polls", href: "/my_polls" },
-    { name: "Create Poll", href: "/create_poll" },
+    { name: "Polls", href: "/all-polls" },
+    { name: "My Polls", href: "/my-polls" },
+    { name: "Create Poll", href: "/create-poll" },
   ];
 
   return (

@@ -70,7 +70,7 @@ export default function CreatePoll() {
             }
         )
             .then(r => 
-                window.location.href = '/my_polls'
+                window.location.href = '/my-polls'
             )
             .catch(e => {
                 seterror_message("Poll Creation failed !! ");
