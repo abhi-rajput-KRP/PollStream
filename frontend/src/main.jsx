@@ -16,27 +16,27 @@ const router = createBrowserRouter([
     Component: App,
     children: [
       {
-        path: "",
+        path: "/",
         Component: HeroSection
       },
       {
-        path: "login",
+        path: "/login",
         Component: Login
       },
       {
-        path: "register",
+        path: "/register",
         Component: Register
       },
       {
-        path: "all_polls",
+        path: "/all_polls",
         Component: AllPolls
       },
       {
-        path: "my_polls",
+        path: "/my_polls",
         Component: MyPolls
       },
       {
-        path: "create_poll",
+        path: "/create_poll",
         Component: CreatePoll
       },
     ]
