@@ -73,7 +73,7 @@ def create_poll():
         options = data.get('options')
         votes_record = dict()
         for option in options:
-            votes_record[option.id] = []
+            votes_record[option.get('id')] = []
         polls.insert_one({"poll_id":str(uuid.uuid4()), "author": author, "question": question, "options": options , "votes": votes_record})
         return jsonify({'message': 'success'}),200
     except:
