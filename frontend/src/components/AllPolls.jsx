@@ -10,7 +10,7 @@ export default function AllPolls() {
     const [questions, setquestions] = useState([])
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:5000/all_polls", {
+        axios.get("https://pollstream-cqof.onrender.com/all_polls", {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -20,7 +20,7 @@ export default function AllPolls() {
     }, [Selection])
 
     function Selection(question_id,option_id) {
-        axios.post("http://127.0.0.1:5000/vote", {
+        axios.post("https://pollstream-cqof.onrender.com/vote", {
             question_id, option_id
         },
             {

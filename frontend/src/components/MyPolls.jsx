@@ -10,7 +10,7 @@ export default function MyPolls() {
     const [questions, setquestions] = useState([])
 
     useEffect(() => {
-        axios.post("http://127.0.0.1:5000/my_polls",
+        axios.post("https://pollstream-cqof.onrender.com/my_polls",
             { user: localStorage.getItem('user') },
             {
                 headers: {
@@ -22,7 +22,7 @@ export default function MyPolls() {
     }, [Selection])
 
     function Selection(question_id,option_id) {
-        axios.post("http://127.0.0.1:5000/vote", {
+        axios.post("https://pollstream-cqof.onrender.com/vote", {
             question_id, option_id
         },
             {
@@ -34,7 +34,7 @@ export default function MyPolls() {
     }
 
     function HandelDelete(id){
-        axios.post("http://127.0.0.1:5000/delete_poll",
+        axios.post("https://pollstream-cqof.onrender.com/delete_poll",
             { poll_id:id , author: localStorage.getItem('user') },
             {
                 headers: {

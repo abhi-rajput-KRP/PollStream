@@ -4,7 +4,7 @@ import Footer from './components/Footer';
 import NavHorizontal from './components/Header'
 import { Outlet } from 'react-router';
 
-// const socket = io("http://localhost:5000");
+// const socket = io("https://pollstream-cqof.onrender.com");
 
 function App() {
   useEffect(()=>{

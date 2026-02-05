@@ -11,13 +11,13 @@ app = Flask(__name__)
 # Setting Up JWT
 app.config["JWT_SECRET_KEY"] = dotenv.get_key('.env','JWT_SECRET_KEY')
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=1)
-socketio = SocketIO(app, cors_allowed_origins="http://localhost:5173")
+socketio = SocketIO(app, cors_allowed_origins="https://poll-stream-three.vercel.app/")
 
 jwt = JWTManager(app)
 
 # CORS policies
 WHITELISTED_ORIGINS = [
-    "http://localhost:5173",
+    "https://poll-stream-three.vercel.app",
 ]
 
 CORS(app, supports_credentials=True, origins=WHITELISTED_ORIGINS)

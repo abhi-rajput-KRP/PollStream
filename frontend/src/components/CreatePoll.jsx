@@ -60,7 +60,7 @@ export default function CreatePoll() {
             }
         })
         if(!validate){
-        axios.post('http://127.0.0.1:5000/create_poll',
+        axios.post('https://pollstream-cqof.onrender.com/create_poll',
             { author, question, options }, // request body
             {
                 headers: {
