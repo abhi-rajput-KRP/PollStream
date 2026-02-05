@@ -37,7 +37,7 @@ def block_proxies():
     proxy_headers = ["X-Forwarded-For", "Via", "Forwarded"]
     for h in proxy_headers:
         if h in request.headers:
-            abort(403, description="Proxy access not allowed")
+            abort(400, description="Proxy access not allowed")
 
 # Database Connection
 client = MongoClient(dotenv.get_key('.env','MONGO_URI'), server_api=ServerApi('1'))
