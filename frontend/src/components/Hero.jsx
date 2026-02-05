@@ -1,11 +1,13 @@
-import { Link,useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 function HeroSection() {
-    const navigate = useNavigate()
-    const token = localStorage.getItem("access_token")
+  const navigate = useNavigate()
+  const token = localStorage.getItem("access_token")
+  useEffect(() => {
     if (token) {
-        navigate('/all_polls');
+      navigate('/all_polls');
     }
+  }, [])
   return (
     <section className="relative w-full min-h-screen bg-black flex">
       <div style={{ alignSelf: 'center', justifySelf: 'center' }} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">

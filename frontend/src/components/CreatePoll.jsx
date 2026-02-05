@@ -5,9 +5,11 @@ import { useNavigate } from "react-router";
 export default function CreatePoll() {
     const navigate = useNavigate()
     const token = localStorage.getItem("access_token")
-    if (!token) {
-        navigate('/');
-    }
+    useEffect(() => {
+        if (!token) {
+            navigate('/');
+        }
+    }, [])
     const author = localStorage.getItem("user")
 
     function simpleUID(length = 8) {
@@ -57,26 +59,26 @@ export default function CreatePoll() {
         options.forEach((element) => {
             if (element.text.length === 0) {
                 seterror_message("No option feild can be empty !!")
-                validate = validate+1;
+                validate = validate + 1;
                 return;
             }
         })
-        if(!validate){
-        axios.post('https://pollstream-cqof.onrender.com/create_poll',
-            { author, question, options }, // request body
-            {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
+        if (!validate) {
+            axios.post('https://pollstream-cqof.onrender.com/create_poll',
+                { author, question, options }, // request body
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
                 }
-            }
-        )
-            .then(r => 
-                navigate('/my_polls')
             )
-            .catch(e => {
-                seterror_message("Poll Creation failed !! ");
-            });
+                .then(r =>
+                    navigate('/my_polls')
+                )
+                .catch(e => {
+                    seterror_message("Poll Creation failed !! ");
+                });
         }
 
     }

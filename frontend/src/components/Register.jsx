@@ -5,9 +5,11 @@ import axios from 'axios';
 export default function Register() {
     const navigate = useNavigate()
     const token = localStorage.getItem("access_token")
-    if (token) {
-        navigate('/all_polls');
-    }
+    useEffect(() => {
+        if (token) {
+            navigate('/all_polls');
+        }
+    }, [])
     const [username, setusername] = useState("")
     const [password, setpassword] = useState("")
     const [confirm_password, setconfirm_password] = useState("")
