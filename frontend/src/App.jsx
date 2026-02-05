@@ -8,24 +8,14 @@ import { Outlet } from 'react-router';
 
 function App() {
   const access_token = localStorage.getItem('access_token')
-  if (!access_token) {
-    return (
-      <>
-        <Outlet />
-        <Footer />
-      </>
-    )
-  }
-  else {
-    return (
-      <>
-        <NavHorizontal />
-        <Outlet />
-        <Footer />
-      </>
-    )
-  }
-
+  return (
+    <>
+      <NavHorizontal />
+      <Outlet />
+      <Footer />
+    </>
+  )
 }
+
 
 export default App
