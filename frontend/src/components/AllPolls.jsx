@@ -14,7 +14,7 @@ export default function AllPolls() {
     const [questions, setquestions] = useState([])
 
     useEffect(() => {
-        axios.get("https://pollstream-cqof.onrender.com/all_polls", {
+        axios.get(localStorage.getItem("Backend_URI")+"all_polls", {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -24,7 +24,7 @@ export default function AllPolls() {
     }, [Selection])
 
     function Selection(question_id,option_id) {
-        axios.post("https://pollstream-cqof.onrender.com/vote", {
+        axios.post(localStorage.getItem("Backend_URI")+"vote", {
             question_id, option_id
         },
             {

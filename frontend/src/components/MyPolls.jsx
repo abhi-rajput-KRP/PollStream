@@ -14,7 +14,7 @@ export default function MyPolls() {
     const [questions, setquestions] = useState([])
 
     useEffect(() => {
-        axios.post("https://pollstream-cqof.onrender.com/my_polls",
+        axios.post(localStorage.getItem("Backend_URI")+"my_polls",
             { user: localStorage.getItem('user') },
             {
                 headers: {
@@ -26,7 +26,7 @@ export default function MyPolls() {
     }, [Selection])
 
     function Selection(question_id,option_id) {
-        axios.post("https://pollstream-cqof.onrender.com/vote", {
+        axios.post(localStorage.getItem("Backend_URI")+"vote", {
             question_id, option_id
         },
             {
@@ -38,7 +38,7 @@ export default function MyPolls() {
     }
 
     function HandelDelete(id){
-        axios.post("https://pollstream-cqof.onrender.com/delete_poll",
+        axios.post(localStorage.getItem("Backend_URI")+"delete_poll",
             { poll_id:id , author: localStorage.getItem('user') },
             {
                 headers: {

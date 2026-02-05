@@ -1,6 +1,5 @@
 from flask import Flask, jsonify,request,abort
 from flask_jwt_extended import JWTManager, create_access_token,jwt_required
-from flask_socketio import SocketIO, send, emit
 from flask_cors import CORS
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
@@ -11,7 +10,6 @@ app = Flask(__name__)
 # Setting Up JWT
 app.config["JWT_SECRET_KEY"] = dotenv.get_key('.env','JWT_SECRET_KEY')
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=1)
-socketio = SocketIO(app, cors_allowed_origins="https://poll-stream-three.vercel.app")
 
 jwt = JWTManager(app)
 
