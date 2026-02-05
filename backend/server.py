@@ -11,7 +11,7 @@ app = Flask(__name__)
 # Setting Up JWT
 app.config["JWT_SECRET_KEY"] = dotenv.get_key('.env','JWT_SECRET_KEY')
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=1)
-socketio = SocketIO(app, cors_allowed_origins="https://poll-stream-three.vercel.app/")
+socketio = SocketIO(app, cors_allowed_origins="https://poll-stream-three.vercel.app")
 
 jwt = JWTManager(app)
 
@@ -75,6 +75,7 @@ def register():
 def login():
     username = request.json.get('username')
     password = request.json.get('password')
+    print("Request accepted")
     user = users.find_one({"username": username})
     if user and bcrypt.checkpw(password.encode("utf-8"), user["password"]):
         user_id = str(user.get("_id"))
