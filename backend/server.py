@@ -28,9 +28,9 @@ def block_untrusted_origins():
     referer = request.headers.get("Referer")
 
     if origin and origin not in WHITELISTED_ORIGINS:
-        abort(403, description="Origin not allowed")
+        abort(401, description="Origin not allowed")
     if referer and not any(referer.startswith(o) for o in WHITELISTED_ORIGINS):
-        abort(403, description="Referer not allowed")
+        abort(402, description="Referer not allowed")
 
 @app.before_request
 def block_proxies():
@@ -44,7 +44,6 @@ client = MongoClient(dotenv.get_key('.env','MONGO_URI'), server_api=ServerApi('1
 db = client.PollStream
 users = db.users
 polls = db.Polls
-print(polls.find())
 
 # @socketio.on('connect')
 # def on_connect():
