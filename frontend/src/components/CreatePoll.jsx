@@ -3,9 +3,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function CreatePoll() {
-    const token = localStorage.getItem('access_token');
+    const navigate = useNavigate()
+    const token = localStorage.getItem("access_token")
     if (!token) {
-        useNavigate()('/');
+        navigate('/');
     }
     const author = localStorage.getItem("user")
 
@@ -71,7 +72,7 @@ export default function CreatePoll() {
             }
         )
             .then(r => 
-                useNavigate()('/my_polls')
+                navigate('/my_polls')
             )
             .catch(e => {
                 seterror_message("Poll Creation failed !! ");

@@ -7,14 +7,6 @@ import { Outlet } from 'react-router';
 // const socket = io("https://pollstream-cqof.onrender.com");
 
 function App() {
-  useEffect(()=>{
-    const curr_date = Date.now();
-    if (curr_date-Number(localStorage.getItem('creation_time')) >= (0.75*24*60*60*100)){
-      localStorage.removeItem('access_token')
-      localStorage.removeItem('user')
-    }
-  },[])
-
   const access_token = localStorage.getItem('access_token')
   if (!access_token) {
     return (

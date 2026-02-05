@@ -4,9 +4,10 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 
 export default function MyPolls() {
+    const navigate = useNavigate()
     const token = localStorage.getItem("access_token")
     if (!token) {
-        useNavigate()('/');
+        navigate('/');
     }
     const [questions, setquestions] = useState([])
 

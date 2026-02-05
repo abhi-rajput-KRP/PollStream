@@ -3,8 +3,10 @@ import { useState } from 'react';
 import axios from 'axios';
 
 export default function Register() {
-    if (localStorage.getItem('access_token')) {
-        useNavigate()('/all_polls');
+    const navigate = useNavigate()
+    const token = localStorage.getItem("access_token")
+    if (token) {
+        navigate('/all_polls');
     }
     const [username, setusername] = useState("")
     const [password, setpassword] = useState("")
@@ -34,7 +36,7 @@ export default function Register() {
                 localStorage.setItem("creation_time", Date.now())
 
                 // Store refresh token in HttpOnly cookie (set by backend ideally)
-                useNavigate()('/all_polls');
+                navigate('/all_polls');
             }
             catch (e) {
                 seterror_message("Login Failed !! ");

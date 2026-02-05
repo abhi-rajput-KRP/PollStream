@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import axios from "axios";
 
 export default function NavHorizontal() {
-
-  async function logout() {
+  const navigator = useNavigate()
+  function logout() {
     try {
       // Clear local access token
       localStorage.removeItem("access_token");
       localStorage.removeItem("user");
       localStorage.removeItem("creation_time");
-
-      // Redirect user to login page
-      window.location.href = "/";
+      // Redirect user to home page
+      navigator('/')
+      
     } catch (err) {
       console.error("Logout failed", err);
     }
