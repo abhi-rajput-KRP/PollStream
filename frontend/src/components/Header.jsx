@@ -19,9 +19,9 @@ export default function NavHorizontal() {
   }
 
   const navItems = [
-    { name: "Polls", href: "/all-polls" },
-    { name: "My Polls", href: "/my-polls" },
-    { name: "Create Poll", href: "/create-poll" },
+    { name: "Polls", href: "/all_polls" },
+    { name: "My Polls", href: "/my_polls" },
+    { name: "Create Poll", href: "/create_poll" },
   ];
 
   return (
