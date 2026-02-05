@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router';
+import { useEffect } from 'react';
 
 function HeroSection() {
   const navigate = useNavigate()
