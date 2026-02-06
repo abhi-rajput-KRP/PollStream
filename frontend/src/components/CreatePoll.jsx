@@ -54,6 +54,10 @@ export default function CreatePoll() {
     const HandelSubmit = (e) => {
         e.preventDefault();
         let validate = 0
+        if (question.length===0){
+            seterror_message("Quenstion can't be empty !!");
+            return;
+        }
         options.forEach((element) => {
             if (element.text.length === 0) {
                 seterror_message("No option feild can be empty !!")
