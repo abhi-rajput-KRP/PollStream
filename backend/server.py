@@ -36,6 +36,11 @@ db = client.PollStream
 users = db.users
 polls = db.Polls
 
+
+@app.route('/')
+def root():
+    return jsonify({'message': 'Welcome to Poll Stream!'}), 200
+
 #User Register
 @app.route('/register', methods=['POST'])
 def register():
