@@ -122,14 +122,13 @@ def delete_poll():
 @app.route('/delete_poll', methods=['POST'])
 @jwt_required()
 def delete_polls():
-    poll_id = request.json.get('poll_id')
-    author = request.json.get('author')
-    polls.delete_one({"poll_id": poll_id})
-    poll_data = polls.find({"author": author})
-    poll_array = []
-    for poll in poll_data:
-        poll_array.append({'poll_id':poll.get('poll_id'), 'author': poll.get('author'), 'question': poll.get('question'), 'options': poll.get('options')})
-    return jsonify(poll_array),200
+    try:
+        poll_id = request.json.get('poll_id')
+        author = request.json.get('author')
+        polls.delete_one({"poll_id": poll_id})
+        return jsonify({'message': 'Successful!'}),200
+    except:
+        return jsonify({'message': 'Something went wrong!'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

@@ -1,5 +1,5 @@
 <h1>PollStream</h1>
-<h4>PollStream is an polling application where users can create polls and know the opinion of perople</h4>
+<h4>PollStream is an polling application where users can create polls and know the opinion of people</h4>
 
 <h2>TECH STACK</h2>
 

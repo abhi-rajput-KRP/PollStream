@@ -33,7 +33,6 @@ export default function Login() {
                 localStorage.setItem("user", user)
                 localStorage.setItem("creation_time", Date.now())
 
-                // Store refresh token in HttpOnly cookie (set by backend ideally)
                 navigate('/all_polls');
             }
             catch (error) {

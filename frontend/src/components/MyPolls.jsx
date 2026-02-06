@@ -23,7 +23,7 @@ export default function MyPolls() {
                 }
             })
             .then(resp => setquestions(resp.data))
-    }, [Selection])
+    }, [Selection, HandelDelete])
 
     function Selection(question_id, option_id) {
         axios.post(localStorage.getItem("Backend_URI") + "vote", {
@@ -46,7 +46,6 @@ export default function MyPolls() {
                     'Content-Type': 'application/json'
                 }
             })
-            .then(resp => setquestions(resp.data))
     }
 
     return (
