@@ -1,7 +1,10 @@
 import PollCard from "./PollCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { io } from "socket.io-client";
 import { useNavigate } from "react-router";
+
+const socket = io(localStorage.getItem("Backend_URI"))
 
 export default function MyPolls() {
     const navigate = useNavigate()
@@ -23,7 +26,14 @@ export default function MyPolls() {
                 }
             })
             .then(resp => setquestions(resp.data))
-    }, [Selection, HandelDelete])
+    }, [])
+
+    useEffect(() => {
+        socket.on("poll_data", (poll) => {
+            setquestions(poll);
+        })
+        return () => socket.off("poll_data");
+    }, []);
 
     function Selection(question_id, option_id) {
         axios.post(localStorage.getItem("Backend_URI") + "vote", {

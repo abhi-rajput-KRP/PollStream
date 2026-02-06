@@ -1,5 +1,5 @@
 <h1>PollStream</h1>
-<h4>PollStream is an polling application where users can create polls and know the opinion of people</h4>
+<h4>PollStream is arealtime Socket-based polling application where users can create polls and know the opinion of people</h4>
 
 <h2>TECH STACK</h2>
 
@@ -80,7 +80,7 @@ JWT_SECRET_KEY="your_secret_key"
 ```
 
 #### Configure Whitelisted domains
-In server.py on line 17
+In server.py on line 19
 ```python
 WHITELISTED_ORIGINS = [
     "URL-of-Your-Frontend",
@@ -118,10 +118,4 @@ npm run dev
 * Set up CORS policy properly as said above
 
 * Must add the allowed IPs if using Atlas Mongo Server
-
-
-<h2>Future Improvements</h2>
-
-
-* Need to set up socket server for realtime poll
 
