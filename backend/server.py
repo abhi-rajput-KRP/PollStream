@@ -1,13 +1,11 @@
 from flask import Flask, jsonify,request,abort
 from flask_jwt_extended import JWTManager, create_access_token,jwt_required, get_jwt_identity
 from flask_cors import CORS
-from flask_socketio import SocketIO
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-import datetime, dotenv, bcrypt, threading, uuid
+import datetime, dotenv, bcrypt, uuid
 
 app = Flask(__name__)
-
 
 # Setting Up JWT
 app.config["JWT_SECRET_KEY"] = dotenv.get_key('.env','JWT_SECRET_KEY')
@@ -19,10 +17,6 @@ jwt = JWTManager(app)
 WHITELISTED_ORIGINS = [
     "https://poll-stream-three.vercel.app",
 ]
-
-# Setting Up Socket
-app.config['SECRET_KEY'] = dotenv.get_key('.env','JWT_SECRET_KEY')
-socketio = SocketIO(app, cors_allowed_origins=WHITELISTED_ORIGINS)
 
 CORS(app, supports_credentials=True, origins=WHITELISTED_ORIGINS)
 
@@ -41,19 +35,6 @@ client = MongoClient(dotenv.get_key('.env','MONGO_URI'), server_api=ServerApi('1
 db = client.PollStream
 users = db.users
 polls = db.Polls
-
-# Setting up Realtime
-def watch_change():
-    with polls.watch() as stream:
-        for change in stream :
-            poll_data = polls.find()
-            poll_array = []
-            for poll in poll_data:
-                poll_array.append(
-                    {'poll_id': poll.get('poll_id'), 'author': poll.get('author'), 'question': poll.get('question'),'options': poll.get('options'), 'votes': poll.get('votes')})
-                socketio.emit("poll_data", poll_array[::-1])
-
-threading.Thread(target=watch_change, daemon=True).start()
 
 #User Register
 @app.route('/register', methods=['POST'])
@@ -150,4 +131,4 @@ def delete_polls():
         return jsonify({'message': 'Something went wrong!'}), 400
 
 if __name__ == '__main__':
-    socketio.run(app,debug=True , host='0.0.0.0', port=5000)
+    app.run(app,debug=True , host='0.0.0.0', port=5000)

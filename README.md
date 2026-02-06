@@ -1,5 +1,5 @@
 <h1>PollStream</h1>
-<h4>PollStream is arealtime Socket-based polling application where users can create polls and know the opinion of people</h4>
+<h4>PollStream is a polling application where users can create polls and know the opinion of people</h4>
 
 <h2>TECH STACK</h2>
 
@@ -80,7 +80,7 @@ JWT_SECRET_KEY="your_secret_key"
 ```
 
 #### Configure Whitelisted domains
-In server.py on line 19
+In server.py on line 17
 ```python
 WHITELISTED_ORIGINS = [
     "URL-of-Your-Frontend",
@@ -103,7 +103,7 @@ npm install
 ```
 
 #### Configure Backend URIs for API calls
-In App.jsx on line 8
+In App.jsx on line 7
 ```javascript
 localStorage.setItem("Backend_URI","URI_of_your_backend")
 ```
